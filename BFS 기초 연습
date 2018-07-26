@@ -1,0 +1,57 @@
+#include <bits/stdc++.h>
+#define M 10
+int n;
+int e;
+int g[M+5][M+5]; ///graph
+int degree[M+5];
+int vt[M+5]; ///전역이므로 초기화 안함
+int q[M+5]; ///전역이므로 따로 초기화 필요x
+void print(){
+    int i,j;
+    for(i=1;i<=n;i++){
+        printf("%d node: ",i);
+        for(j=0;j<degree[i];j++){
+            printf("%d ",g[i][j]);
+        }
+        printf("\n");
+    }
+}
+void input(){
+    int i,j;
+    int t1,t2;
+    freopen("in.txt","r",stdin);
+    scanf("%d %d",&n,&e);
+    for(i=0;i<e;i++){
+        scanf("%d %d",&t1,&t2);
+        g[t1][degree[t1]++]=t2;
+        g[t2][degree[t2]++]=t1;
+    }
+    print();
+}
+int bfs(int org){
+    int f=0; ///front
+    int r=0; ///rear
+    q[r++]=org; ///start node index를 queue에 때려넣음 *put
+    vt[org]=1; ///start node check
+    int t;
+    int i;
+    do{
+        t=q[f++]; ///*get
+        printf("%d ",t);
+        for(i=0;i<degree[t];i++){
+            if(vt[g[t][i]]==0){
+                q[r++]=g[t][i];
+                vt[g[t][i]]=1;
+            }
+        }
+    }while(f!=r);
+    printf("\n");
+    for(i=0;i<r;i++){
+        printf("%d ",q[i]);
+    }
+}
+int main(){
+    input();
+    bfs(1);
+    return 0;
+}
