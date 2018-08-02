@@ -1,0 +1,86 @@
+///STL 더 배운 후 간단히 시도해볼것 _ <vector> 이용
+
+
+#include <bits/stdc++.h>
+#define MAX 1000000
+using namespace std;
+
+int n; ///아파트단지 수
+int k; ///정원
+int s; ///학교의 위치
+struct tuple_{
+    int apt;
+    int p;
+    int length;
+};
+tuple_ A[MAX+5];
+int all;
+void input(){
+    freopen("in.txt","r",stdin);
+    scanf("%d %d %d",&n,&k,&s);
+    for(int i=0;i<n;i++){
+        scanf("%d %d",&A[i].apt,&A[i].p);
+        all+=A[i].p;
+    }
+}
+void len_search(){
+    int i;
+    for(i=0;i<n;i++){
+        A[i].length = abs(s-A[i].apt);
+    }
+    ///4 2 1
+}
+bool sf(tuple_ a, tuple_ b){
+    return a.length>b.length;
+}
+void print1(){
+    int i;
+    for(i=0;i<n;i++){
+        printf("%d\n",A[i].length);
+    }
+}
+void print2(){
+    int i;
+    for(i=0;i<n;i++){
+        printf("apt: %d | p: %d | len: %d\n",A[i].apt,A[i].p,A[i].length);
+    }
+}
+int main(){
+    input();
+    ///학생이 있는 제일 먼 거리로부터 학교까지 오면서 태움
+    len_search();
+    ///A[0] -> 최대
+    sort(A,A+n,sf);
+    //print1();
+    //print2();
+    /*
+    4
+    2
+    1
+    apt: 0 | p: 1 | len: 4
+    apt: 2 | p: 2 | len: 2
+    apt: 5 | p: 1 | len: 1
+    */
+    int ans=0; ///최단거리
+    int people=0; ///타고있는 학생 수
+    int i;
+    int save=0;
+    while(1){
+        if(all>0){ ///남은 인원수가 있을 때
+           if(people>k){ ///탄 인원수가 정원보다 적거나 같을 때
+                for(i=save;i<n;i++){
+                       save=i;
+                       ans+=A[i].length;
+                    if(people+A[i+1].p<=k){ ///만약 그 다음 단지 학생을 태울시 정원이 넘치다면
+                        int slen=0;
+                        slen=abs(A[i].apt-s); ///학교까지의 거리를 잼
+                        ans+=slen; ///학교로 돌아오는 거리를 구하고
+                        break; ///다시 돌아감
+                    }
+                }
+           }
+        }else if(all<=0 || people<=k) break;
+    }
+    printf("%d\n",ans);
+    return 0;
+}
