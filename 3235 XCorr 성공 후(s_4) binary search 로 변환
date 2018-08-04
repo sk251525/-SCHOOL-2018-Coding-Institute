@@ -1,4 +1,5 @@
 ///본 작업은 Success(100) 후에 binary search 로 제대로 Standard 표본을 만들기 위해 연구중입니다. -- 2018/08/05
+
 #include <bits/stdc++.h>
 #define MAX 300000
 using namespace std;
@@ -59,3 +60,7 @@ int main(){
     printf("%lld",ans);
     return 0;
 }
+
+***
+참고1: https://oj.uz/submission/63666
+참고2: https://oj.uz/submission/64209
