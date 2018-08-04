@@ -1,0 +1,86 @@
+#include <bits/stdc++.h>
+#define MAX 300000
+using namespace std;
+
+struct tuple_{
+    int idx;
+    int num;
+};
+tuple_ X[MAX+5];
+tuple_ Y[MAX+5];
+int n,m;
+int a,b;
+int sum[MAX+5];
+void input(){
+    freopen("in.txt","r",stdin);
+    int i;
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        scanf("%d %d",&X[i].idx,&X[i].num);
+    }
+    scanf("%d",&m);
+    for(i=0;i<m;i++){
+        scanf("%d %d",&Y[i].idx,&Y[i].num);
+        sum[i+1]=sum[i]+Y[i].num;
+    }
+    scanf("%d%d",&a,&b);
+}
+/*
+int bs(int key){
+    int s,e;
+    int mid;
+    s=1;
+    e=m-1;
+    while(s<=e){
+        mid=(s+e)/2;
+        if(Y[mid].idx==key){
+            //printf("mid: %d\n",mid);
+            return mid;
+        }
+        if(Y[mid].idx<key){
+            s=mid+1;
+        }
+        if(Y[mid].idx>key){
+            e=mid-1;
+        }
+    }
+    return -1;
+}
+*/
+int bs(int s, int e, int key){
+    if(s>e) return -1;
+    int mid;
+    mid=(s+e)/2;
+    if(Y[mid].idx==key){
+        return mid;
+    }
+    if(Y[mid].idx>key){
+        return bs(s,mid-1,key);
+    }
+    if(Y[mid].idx<key){
+        return bs(mid+1,e,key);
+    }
+}
+int main(){
+    input();
+    long long int ans=0;
+    int i;
+    int st,ed;
+    for(i=0;i<n;i++){
+        st=bs(Y[i].idx,Y[m].idx,X[i].idx+a);
+        ed=bs(Y[i].idx,Y[m].idx,X[i].idx+b+1);
+        /*
+        st=bs(X[i].idx+a)-Y[0].idx;
+        ed=bs(X[i].idx+b+1)-Y[0].idx;
+        */
+        ans+=X[i].num*(sum[ed]-sum[st]);
+        //printf("ans: %d\n",ans);
+    }
+    printf("%lld\n",ans);
+    return 0;
+}
+
+
+*참고문헌
+1<주석>: https://oj.uz/submission/62795
+2<실행 compiler>: https://oj.uz/submission/62755
