@@ -1,0 +1,81 @@
+#include <bits/stdc++.h>
+#define MAX 300000
+using namespace std;
+
+struct tuple_{
+    int idx;
+    int num;
+};
+tuple_ X[MAX+5];
+tuple_ Y[MAX+5];
+int n,m;
+int a,b;
+int sum[MAX+5];
+void input(){
+    freopen("in.txt","r",stdin);
+    int i;
+    scanf("%d",&n);
+    for(i=0;i<n;i++){
+        scanf("%d %d",&X[i].idx,&X[i].num);
+    }
+    scanf("%d",&m);
+    for(i=0;i<m;i++){
+        scanf("%d %d",&Y[i].idx,&Y[i].num);
+    }
+    scanf("%d%d",&a,&b);
+    for(i=0;i<m;i++){
+        sum[i]+=Y[i].num;
+    }
+}
+int bs_X(int index){
+    int s=1; ///left
+    int e=m; ///right
+    int mid;
+    //if(s>e) return -1;
+    int re=-1;
+    while(s<=e){
+        m=(s+e)/2;
+        if(Y[mid].idx>=index){
+            e=mid-1;
+            re=mid;
+        }else{
+            s=mid+1;
+        }
+    }
+    return re;
+}
+int bs_Y(int index){
+    int s=1; ///left
+    int e=m; ///right
+    int mid;
+    //if(s>e) return -1;
+    int re=-1;
+    while(s<=e){
+        m=(s+e)/2;
+        if(Y[mid].idx<=index){
+            e=mid+1;
+            re=mid;
+        }else{
+            s=mid-1;
+        }
+    }
+    return re;
+}
+int main(){
+    input();
+    long long int ans=0;
+    int xidx=0;
+    int xnum=0;
+    int st,ed;
+    int i;
+    for(i=0;i<n;i++){
+        xidx=X[i].idx;
+        xnum=X[i].num;
+        st=bs_X(xidx+a);
+        ed=bs_Y(xidx+b);
+        if(st==-1 || ed==-1) continue;
+        ans+=(sum[ed]-sum[st])*xnum;
+    }
+    printf("%lld",ans);
+    return 0;
+}
