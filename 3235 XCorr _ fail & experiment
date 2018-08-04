@@ -63,7 +63,7 @@ int main(){
 비록, 실패했지만
 이것으로 정답을 찾을 방법을 구현해냈다.
 
-HINT!
+HINT! _ O(N log n)
 1) lower_bound() function
 2) binary search Algorithm
 3) STL vector or others...
