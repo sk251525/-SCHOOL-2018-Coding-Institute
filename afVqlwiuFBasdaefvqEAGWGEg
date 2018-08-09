@@ -1,0 +1,90 @@
+#include <bits/stdc++.h>
+#define MAX 300000
+using namespace std;
+
+struct tuple_{
+    int idx;
+    int num;
+};
+tuple_ X[MAX+5];
+tuple_ Y[MAX+5];
+int n,m;
+int a,b;
+long long S[MAX+5];
+long long ans;
+
+void print(){
+    int i;
+    for(i=0;i<=m;i++){
+        printf("S[%d]: %d\n",i,S[i]);
+    }
+}
+void input(){
+    freopen("in.txt","r",stdin);
+    scanf("%d",&n);
+    int i;
+    for(i=1;i<=n;i++){
+        scanf("%d %d",&X[i].idx,&X[i].num);
+    }
+    scanf("%d",&m);
+    for(i=1;i<=m;i++){
+        scanf("%d %d",&Y[i].idx,&Y[i].num);
+    }
+    scanf("%d%d",&a,&b);
+    for(i=1;i<=m;i++){
+        S[i]=S[i-1]+Y[i].num;
+    }
+    print();
+}
+int bs1(int key){
+    //int s=1;
+    int s=0;
+    int e=m;
+    int mid;
+    int reidx=-1;
+    while(s<=e){
+        mid=(s+e)/2;
+        if(Y[mid].idx>=key){
+            e=mid-1;
+            reidx=mid;
+        }else{
+            s=mid+1;
+        }
+    }
+    
+    return reidx;
+}
+int bs2(int key){
+    int s=0;
+    int e=m;
+    int mid;
+    int reidx=-1;
+    while(s<=e){
+        mid=(s+e)/2;
+        if(Y[mid].idx<=key){
+            s=mid+1;
+            reidx=mid;
+        }else{
+            e=mid-1;
+        }
+    }
+
+    return reidx;
+}
+void solve(){
+    int st;
+    int ed;
+    int i;
+    for(i=1;i<=n;i++){
+        st=bs1(X[i].idx+a);
+        ed=bs2(X[i].idx+b);
+        if(st==-1 || ed==-1) continue;
+        ans+=(S[ed]-S[st-1])*X[i].num;
+    }
+}
+int main(){
+    input();
+    solve();
+    printf("%lld\n",ans);
+    return 0;
+}
