@@ -1,0 +1,69 @@
+#include <bits/stdc++.h>
+#include <time.h>
+#include <windows.h>
+#include <iostream>
+#include <chrono>
+using namespace std;
+
+int f(int n) {
+    long long f1=1,f2=1,f3=1;
+    int i;
+    for(i=3;i<=n;i++) {
+        printf("%lld ",f3);
+        f3=f1+f2;
+        f1=f2;
+        f2=f3;
+    }
+    return f3;
+}
+long long r(int n) {
+    if(n==1 || n==2) return 1;
+    return r(n-1)+r(n-2);
+}
+int main(){
+    std::chrono::system_clock::time_point StartTime = std::chrono::system_clock::now();
+    int n;
+    freopen("in.txt","r",stdin);
+    scanf("%d",&n);
+    printf("%d\n",f(n));
+    //printf("%lld\n",r(n));
+    std::chrono::system_clock::time_point EndTime = std::chrono::system_clock::now();
+    std::chrono::nanoseconds nano = EndTime - StartTime;
+    std::chrono::microseconds micro = std::chrono::duration_cast<std::chrono::microseconds>(EndTime - StartTime);
+    std::chrono::milliseconds mill = std::chrono::duration_cast<std::chrono::milliseconds>(EndTime - StartTime);
+    std::chrono::seconds sec = std::chrono::duration_cast<std::chrono::seconds>(EndTime - StartTime);
+    std::chrono::minutes min = std::chrono::duration_cast<std::chrono::minutes>(EndTime - StartTime);
+    std::chrono::hours hour = std::chrono::duration_cast<std::chrono::hours>(EndTime - StartTime);
+    std::cout << "Time : " << nano.count() << " nanoseconds" << std::endl;
+    std::cout << "Time : " << micro.count() << " microseconds" << std::endl;
+    std::cout << "Time : " << mill.count() << " milliseconds" << std::endl;
+    std::cout << "Time : " << sec.count() << " seconds" << std::endl;
+    std::cout << "Time : " << min.count() << " minutes" << std::endl;
+    std::cout << "Time : " << hour.count() << " hour" << std::endl;
+    return 0;
+ }
+
+
+
+
+    /*
+   clock_t startTime, endTime;
+   double nProcessExcuteTime;
+   startTime = clock();
+
+    int n;
+    freopen("in.txt","r",stdin);
+    scanf("%d",&n);
+    printf("%lld\n",f(n));
+    //printf("%lld\n",r(n));
+
+   endTime = clock();
+
+   nProcessExcuteTime = ( (double)(endTime - startTime) ) / CLOCKS_PER_SEC;
+
+   printf("Excute time: %f\n", nProcessExcuteTime);
+
+   return 0;
+
+}
+*/
